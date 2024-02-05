@@ -1,131 +1,89 @@
-import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
+// pages/index.js
+import React from 'react';
+import Head from 'next/head';
+import { BingoBoard } from './bingo'; // Adjust the import path as needed
+import { Welc } from './welc'; // Adjust the import path as needed
+import { Container, Typography, Box } from '@mui/material';
+
 export default function Home() {
+  const shuffleArray = (array) => {
+    let currentIndex = array.length, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (currentIndex !== 0) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+  };
+
+  const [user, setUser] = React.useState(null);
+  const cellContents = [
+    'test1',
+    'test2',
+    'test3',
+    'test4',
+    'test5',
+    'test6',
+    'test7',
+    'test8',
+    'test9',
+    'test10',
+    'test11',
+    'test12',
+    'test13',
+    'test14',
+    'test15',
+    'test16',
+    'test17',
+    'test18',
+    'test19',
+    'test20',
+    'test21',
+    'test22',
+    'test23',
+    'test24',
+    'test25',
+  ]
+  const [shuffledCellContents, setShuffledCellContents] = React.useState([]);
+
+  const handleLogin = (name) => {
+    setUser(name);
+    setShuffledCellContents(shuffleArray([...cellContents]));
+  };
+
+  if (!user) {
+    return <Welc onLogin={handleLogin} />;
+  }
+
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Create Next App</title>
+        <title>Roar + Pour</title>
+        <meta name="description" content="Bingo Game" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family:
-            Menlo,
-            Monaco,
-            Lucida Console,
-            Liberation Mono,
-            DejaVu Sans Mono,
-            Bitstream Vera Sans Mono,
-            Courier New,
-            monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family:
-            -apple-system,
-            BlinkMacSystemFont,
-            Segoe UI,
-            Roboto,
-            Oxygen,
-            Ubuntu,
-            Cantarell,
-            Fira Sans,
-            Droid Sans,
-            Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
+      <Container maxWidth="sm">
+        <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
+          <Typography variant="h4" component="h1" gutterBottom align="center">
+            Hey, {user}!
+          </Typography>
+          <Typography variant="h4" component="h1" gutterBottom align="center">
+            Roar + Pour
+          </Typography>
+          <BingoBoard userId={user} cellContents={shuffledCellContents} />
+        </Box>
+      </Container>
+    </>
   );
 }
