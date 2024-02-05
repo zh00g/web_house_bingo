@@ -2,7 +2,12 @@ import React from 'react';
 import api from './api'; // Make sure the API path is correct
 import { Box, Grid, Paper, Typography } from '@mui/material';
 
-export const BingoBoard = ({ cellContents, userId }) => {
+const BingoBoard = ({ cellContents, userId }) => {
+
+    if (!Array.isArray(cellContents) || cellContents.length !== 25) {
+        console.error("cellContents must be an array with 25 elements.");
+        return null; // or return some fallback UI
+    }
     const [board, setBoard] = React.useState(
         new Array(5).fill(null).map((_, rowIndex) =>
             new Array(5).fill(null).map((_, colIndex) => ({
@@ -50,17 +55,17 @@ export const BingoBoard = ({ cellContents, userId }) => {
 
     return (
         <Box p={2}>
-            <Grid container spacing={2} justifyContent="center">
+            <Grid container spacing={1} justifyContent="center">
                 {board.map((row, rowIndex) => (
                     <Grid item xs={12} key={rowIndex}>
-                        <Grid container justifyContent="center" spacing={2}>
+                        <Grid container justifyContent="center" spacing={0.25}>
                             {row.map((cell, colIndex) => (
                                 <Grid item key={colIndex}>
                                     <Paper
                                         onClick={() => toggleCell(rowIndex, colIndex)}
                                         style={{
-                                            width: 60,
-                                            height: 60,
+                                            width: 56,
+                                            height: 56,
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
@@ -68,7 +73,17 @@ export const BingoBoard = ({ cellContents, userId }) => {
                                             cursor: 'pointer',
                                         }}
                                     >
-                                        <Typography variant="h6" component="span">
+                                        <Typography
+                                            variant="caption"
+                                            component="div"
+                                            style={{
+                                                margin: '0.2rem',
+                                                textAlign: 'center',
+                                                lineHeight: '0.9', // Reduced line height, adjust as needed
+                                                whiteSpace: 'normal', // Ensure line breaks occur
+                                                fontSize: '0.4rem', // Smaller font size, adjust as needed
+                                            }}
+                                        >
                                             {cell.marked ? 'X' : cell.content}
                                         </Typography>
                                     </Paper>
@@ -81,3 +96,5 @@ export const BingoBoard = ({ cellContents, userId }) => {
         </Box>
     );
 };
+
+export default BingoBoard;

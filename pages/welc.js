@@ -1,17 +1,17 @@
 import React from 'react';
 import { Container, TextField, Button, Box, Typography } from '@mui/material';
 
-export const Welc = ({ onLogin }) => {
+const Welc = ({ onLogin }) => {
     const [name, setName] = React.useState('');
 
     return (
         <Container maxWidth="xs">
             <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh" gap={2}>
-                <Typography variant="h5" component="h1" gutterBottom>
+                <Typography variant="button" component="h1" gutterBottom>
                     welcome! 
                 </Typography>
                 <TextField
-                    label="Enter a Nickname"
+                    label="enter a nickname"
                     variant="outlined"
                     fullWidth
                     value={name}
@@ -24,3 +24,5 @@ export const Welc = ({ onLogin }) => {
         </Container>
     );
 };
+
+export default Welc;

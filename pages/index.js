@@ -3,8 +3,8 @@ import styles from '../styles/Home.module.css';
 // pages/index.js
 import React from 'react';
 import Head from 'next/head';
-import { BingoBoard } from './bingo'; // Adjust the import path as needed
-import { Welc } from './welc'; // Adjust the import path as needed
+import BingoBoard from './bingo'; // Adjust the import path as needed
+import Welc from './welc'; // Adjust the import path as needed
 import { Container, Typography, Box } from '@mui/material';
 
 export default function Home() {
@@ -28,17 +28,17 @@ export default function Home() {
 
   const [user, setUser] = React.useState(null);
   const cellContents = [
-    'test1',
-    'test2',
-    'test3',
-    'test4',
-    'test5',
-    'test6',
-    'test7',
-    'test8',
-    'test9',
-    'test10',
-    'test11',
+    'come in costume',
+    'venmo us for alc',
+    'win a game of pong',
+    'do a dare',
+    'make a cocktail',
+    'take a selfie with everyone here',
+    'make friends with someone you dont know',
+    'free space',
+    'freestyle',
+    'do a shot with someone you dont know',
+    'queue up a song',
     'test12',
     'test13',
     'test14',
@@ -75,11 +75,11 @@ export default function Home() {
 
       <Container maxWidth="sm">
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
-          <Typography variant="h4" component="h1" gutterBottom align="center">
-            Hey, {user}!
+          <Typography variant="button" component="h1" gutterBottom align="center">
+            hey, {user}!
           </Typography>
-          <Typography variant="h4" component="h1" gutterBottom align="center">
-            Roar + Pour
+          <Typography variant="button" component="h1" gutterBottom align="center">
+            roar + pour
           </Typography>
           <BingoBoard userId={user} cellContents={shuffledCellContents} />
         </Box>
