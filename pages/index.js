@@ -5,7 +5,10 @@ import React from 'react';
 import Head from 'next/head';
 import BingoBoard from './bingo'; // Adjust the import path as needed
 import Welc from './welc'; // Adjust the import path as needed
-import { Container, Typography, Box } from '@mui/material';
+import Leaderboard from './leaderboard';
+import { Button, Container, Typography, Box } from '@mui/material';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function Home() {
   const shuffleArray = (array) => {
@@ -25,8 +28,9 @@ export default function Home() {
 
     return array;
   };
-
+  const [showButton, setShowButton] = React.useState(true);
   const [user, setUser] = React.useState(null);
+  const loggedIn = React.useRef(false);
   const cellContents = [
     'come in costume',
     'venmo us for alc',
@@ -55,13 +59,29 @@ export default function Home() {
     'test25',
   ]
   const [shuffledCellContents, setShuffledCellContents] = React.useState([]);
+  const [showLeaderboard, setShowLeaderboard] = React.useState(false);
 
   const handleLogin = (name) => {
+    loggedIn.current = true;
     setUser(name);
     setShuffledCellContents(shuffleArray([...cellContents]));
   };
 
-  if (!user) {
+  const router = useRouter();
+
+  if (router.pathname === '/leaderboard') {
+    return <Leaderboard />;
+  }
+
+  if (router.pathname === '/leaderboard') {
+    return <Leaderboard showButton={false} setShowLeaderboard={setShowLeaderboard} />;
+  }
+
+  if (showLeaderboard) {
+    return <Leaderboard showButton={true} setShowLeaderboard={setShowLeaderboard} />;
+  }
+
+  if (!loggedIn.current) {
     return <Welc onLogin={handleLogin} />;
   }
 
@@ -82,7 +102,12 @@ export default function Home() {
             roar + pour
           </Typography>
           <BingoBoard userId={user} cellContents={shuffledCellContents} />
+          {/* <Link href="/leaderboard">
+            <Typography variant='button'> view leaderboard</Typography>
+          </Link> */}
+          <Button onClick={() => setShowLeaderboard(true)}>show leaderboard</Button>
         </Box>
+
       </Container>
     </>
   );
