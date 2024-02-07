@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Button, Container, Typography, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import Link from 'next/link';
 
-const Leaderboard = ({setShowLeaderboard, showButton}) => {
+const Leaderboard = ({ setShowLeaderboard, showButton }) => {
 
     const [users, setUsers] = React.useState(
         [
@@ -33,7 +33,7 @@ const Leaderboard = ({setShowLeaderboard, showButton}) => {
         , []);
 
     return (
-        <Container maxWidth="sm">
+        <Container sx={{ bgcolor: '#c2261b', color: 'white', minHeight: '100vh' }} maxWidth="sm">
             <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
                 <Typography variant='button' component="h2" gutterBottom>leaderboard</Typography>
                 <TableContainer component={Paper}>
@@ -61,7 +61,14 @@ const Leaderboard = ({setShowLeaderboard, showButton}) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {showButton && <Button onClick={() => setShowLeaderboard(false)}>go back</Button>}
+                {showButton && <Button sx={{
+                    mt: 2,
+                    color: 'white',
+                    backgroundColor: '#f0bf2e',
+                    '&:hover': {
+                        backgroundColor: 'darkgoldenrod', // Darker shade of gold for hover effect
+                    },
+                }} onClick={() => setShowLeaderboard(false)}>go back</Button>}
             </Box>
         </Container>
     );

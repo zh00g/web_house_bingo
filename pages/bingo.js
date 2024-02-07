@@ -69,7 +69,7 @@ const BingoBoard = ({ cellContents, userId }) => {
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
-                                            backgroundColor: cell.marked ? '#e0e0e0' : '#ffffff',
+                                            backgroundColor: cell.marked ? '#fcd151' : '#ffffff',
                                             cursor: 'pointer',
                                         }}
                                     >
@@ -81,7 +81,8 @@ const BingoBoard = ({ cellContents, userId }) => {
                                                 textAlign: 'center',
                                                 lineHeight: '0.9', // Reduced line height, adjust as needed
                                                 whiteSpace: 'normal', // Ensure line breaks occur
-                                                fontSize: '0.4rem', // Smaller font size, adjust as needed
+                                                fontSize: cell.marked ? '0.8rem' : '0.4rem', // Smaller font size, adjust as needed
+                                                color: cell.marked ? 'white' : 'inherit',
                                             }}
                                         >
                                             {cell.marked ? 'X' : cell.content}

@@ -93,7 +93,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxWidth="sm">
+      <Container sx={{ bgcolor: '#c2261b', color: 'white', minHeight: '100vh' }} maxWidth="sm">
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
           <Typography variant="button" component="h1" gutterBottom align="center">
             hey, {user}!
@@ -105,7 +105,14 @@ export default function Home() {
           {/* <Link href="/leaderboard">
             <Typography variant='button'> view leaderboard</Typography>
           </Link> */}
-          <Button onClick={() => setShowLeaderboard(true)}>show leaderboard</Button>
+          <Button sx={{
+            mt: 2,
+            color: 'white',
+            backgroundColor: '#f0bf2e',
+            '&:hover': {
+              backgroundColor: 'darkgoldenrod', // Darker shade of gold for hover effect
+            },
+          }} onClick={() => setShowLeaderboard(true)}>show leaderboard</Button>
         </Box>
 
       </Container>
