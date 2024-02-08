@@ -6,7 +6,7 @@ import Head from 'next/head';
 import BingoBoard from './bingo'; // Adjust the import path as needed
 import Welc from './welc'; // Adjust the import path as needed
 import Leaderboard from './leaderboard';
-import { Button, Container, Typography, Box } from '@mui/material';
+import { Button, Container, Typography, Box, Dialog } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -99,7 +99,7 @@ export default function Home() {
             hey, {user}!
           </Typography>
           <Typography variant="button" component="h1" gutterBottom align="center">
-            roar + pour
+            roar + pour!!!
           </Typography>
           <BingoBoard userId={user} cellContents={shuffledCellContents} />
           {/* <Link href="/leaderboard">

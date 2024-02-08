@@ -3,7 +3,7 @@ import json
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "https://web-house-bingo-zh00g.vercel.app"}})
+CORS(app)
 
 @app.route('/update-count', methods=['POST'])
 def update_count():
@@ -26,4 +26,4 @@ def update_count():
     return jsonify(success=True, message="Count updated successfully.")
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, ssl_context='adhoc')
+    app.run(host='192.168.1.67', debug = True)
