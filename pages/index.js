@@ -11,6 +11,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function Home() {
+  const [openLeaderboard, setOpenLeaderboard] = React.useState(false);
+
+  // Function to open the dialog
+  const handleOpenLeaderboard = () => {
+    setOpenLeaderboard(true);
+  };
+
+  // Function to close the dialog
+  const handleCloseLeaderboard = () => {
+    setOpenLeaderboard(false);
+  };
+
   const shuffleArray = (array) => {
     let currentIndex = array.length, randomIndex;
 
@@ -77,9 +89,9 @@ export default function Home() {
     return <Leaderboard showButton={false} setShowLeaderboard={setShowLeaderboard} />;
   }
 
-  if (showLeaderboard) {
-    return <Leaderboard showButton={true} setShowLeaderboard={setShowLeaderboard} />;
-  }
+  // if (showLeaderboard) {
+  //   return <Leaderboard showButton={true} setShowLeaderboard={setShowLeaderboard} />;
+  // }
 
   if (!loggedIn.current) {
     return <Welc onLogin={handleLogin} />;
@@ -112,8 +124,14 @@ export default function Home() {
             '&:hover': {
               backgroundColor: 'darkgoldenrod', // Darker shade of gold for hover effect
             },
-          }} onClick={() => setShowLeaderboard(true)}>show leaderboard</Button>
+          }} onClick={handleOpenLeaderboard}>show leaderboard</Button>
+
+          <Dialog maxWidth="xl" fullWidth open={openLeaderboard} onClose={handleCloseLeaderboard}>
+            <Leaderboard showButton={true} setOpenLeaderboard={setOpenLeaderboard}/>
+          </Dialog>
         </Box>
+
+
 
       </Container>
     </>
