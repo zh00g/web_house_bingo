@@ -24,19 +24,27 @@ export default function Home() {
   };
 
   const shuffleArray = (array) => {
-    let currentIndex = array.length, randomIndex;
+    let itemsToShuffle = array.filter(item => item !== 'free space');
+    let currentIndex = itemsToShuffle.length, randomIndex;
 
+    // While there remain elements to shuffle...
     while (currentIndex !== 0) {
-
+      // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
 
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
+      // And swap it with the current element.
+      [itemsToShuffle[currentIndex], itemsToShuffle[randomIndex]] = [
+        itemsToShuffle[randomIndex], itemsToShuffle[currentIndex]];
     }
 
-    return array;
+    // Insert 'free space' into the center of the board
+    const centerIndex = Math.floor(itemsToShuffle.length / 2);
+    itemsToShuffle.splice(centerIndex, 0, 'free space');
+
+    return itemsToShuffle;
   };
+
   const [showButton, setShowButton] = React.useState(true);
   const [user, setUser] = React.useState(null);
   const loggedIn = React.useRef(false);
@@ -124,7 +132,7 @@ export default function Home() {
           }} onClick={handleOpenLeaderboard}>show leaderboard</Button>
 
           <Dialog maxWidth="xl" fullWidth open={openLeaderboard} onClose={handleCloseLeaderboard}>
-            <Leaderboard showButton={true} setOpenLeaderboard={setOpenLeaderboard}/>
+            <Leaderboard showButton={true} setOpenLeaderboard={setOpenLeaderboard} />
           </Dialog>
         </Box>
 

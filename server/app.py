@@ -5,6 +5,7 @@ import random
 
 app = Flask(__name__)
 CORS(app)
+arduino_ip = '192.168.0.227'
 
 
 @app.route("/update-count", methods=["POST"])
