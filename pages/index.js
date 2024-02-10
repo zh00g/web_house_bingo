@@ -103,7 +103,7 @@ export default function Home() {
       </Head>
 
       <Container sx={{ bgcolor: '#c2261b', color: 'white', minHeight: '100vh' }} maxWidth="sm">
-        <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
+        <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="90vh">
           <Typography variant="button" component="h1" gutterBottom align="center">
             hey, {user}!
           </Typography>

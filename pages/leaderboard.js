@@ -4,11 +4,17 @@ import Link from 'next/link';
 import api from './api'; // Make sure the API path is correct
 
 const Leaderboard = ({ setOpenLeaderboard, showButton }) => {
+    const [winner, setWinner] = React.useState(null);
 
     const [users, setUsers] = React.useState(
         [
         ]
     );
+
+    const runRaffle = async () => {
+        const response = await api.get('/raffle');
+        setWinner(response.data.winner);
+    }
 
     useEffect(() => {
         const fetchLeaderboard = async () => {
@@ -32,7 +38,7 @@ const Leaderboard = ({ setOpenLeaderboard, showButton }) => {
 
     return (
         <Container sx={{ bgcolor: '#c2261b', color: 'white', minHeight: '100vh' }} maxWidth="sm">
-            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
+            <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="80vh">
                 <Typography variant='button' component="h2" gutterBottom>leaderboard</Typography>
                 <TableContainer component={Paper} style={{ maxHeight: '400px' }}> {/* Set a fixed height */}
                     <Table size="small" stickyHeader sx={{ minWidth: 100 }} aria-label="simple table">
@@ -68,6 +74,15 @@ const Leaderboard = ({ setOpenLeaderboard, showButton }) => {
                         backgroundColor: 'darkgoldenrod', // Darker shade of gold for hover effect
                     },
                 }} onClick={() => setOpenLeaderboard(false)}>go back</Button>}
+                {<Button sx={{
+                    mt: 2,
+                    color: 'white',
+                    backgroundColor: '#f0bf2e',
+                    '&:hover': {
+                        backgroundColor: 'darkgoldenrod', // Darker shade of gold for hover effect
+                    },
+                }} onClick={() => runRaffle()}>reveal raffle winner</Button>}
+                {winner && <Typography variant='button' component="h2" gutterBottom>winner winner!! {winner}</Typography>}
             </Box>
         </Container>
     );
