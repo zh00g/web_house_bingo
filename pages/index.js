@@ -26,14 +26,11 @@ export default function Home() {
   const shuffleArray = (array) => {
     let currentIndex = array.length, randomIndex;
 
-    // While there remain elements to shuffle...
     while (currentIndex !== 0) {
 
-      // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex--;
 
-      // And swap it with the current element.
       [array[currentIndex], array[randomIndex]] = [
         array[randomIndex], array[currentIndex]];
     }
@@ -45,30 +42,30 @@ export default function Home() {
   const loggedIn = React.useRef(false);
   const cellContents = [
     'come in costume',
-    'venmo us for alc',
+    'venmo us $5 for alc :)',
     'win a game of pong',
     'do a dare',
-    'make a cocktail',
+    'make a cocktail for someone',
     'take a selfie with everyone here',
     'make friends with someone you dont know',
     'free space',
     'freestyle',
     'do a shot with someone you dont know',
     'queue up a song',
-    'test12',
-    'test13',
-    'test14',
-    'test15',
-    'test16',
-    'test17',
-    'test18',
-    'test19',
-    'test20',
-    'test21',
-    'test22',
-    'test23',
-    'test24',
-    'test25',
+    'trade a WNRS card with someone',
+    'take a photo with the hosts <3',
+    'free!!',
+    'win costume contest',
+    'win a card game',
+    'text the one that got away...',
+    'dont yak :)',
+    'take a polaroid!',
+    'trade a WNRS card with 3 ppl',
+    'win a game of rage cage',
+    'win RPS against someone',
+    'compliment 5 ppl!',
+    'exchange # w someone u dont know',
+    'say hi to all the hosts hehe',
   ]
   const [shuffledCellContents, setShuffledCellContents] = React.useState([]);
   const [showLeaderboard, setShowLeaderboard] = React.useState(false);
