@@ -59,14 +59,33 @@ const BingoBoard = ({ cellContents, userId }) => {
 
         if (!completedDiags.left && board.every((row, idx) => row[idx].marked)) {
             newBingo = true;
-            completedDiags.left = true; 
+            completedDiags.left = true;
         }
         if (!completedDiags.right && board.every((row, idx) => row[board.length - 1 - idx].marked)) {
             newBingo = true;
-            completedDiags.right = true; 
+            completedDiags.right = true;
         }
 
         return newBingo;
+    };
+
+    const calculateScore = (board, completedRows, completedCols, completedDiags) => {
+        let score = 0;
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, colIndex) => {
+                if (cell.marked) {
+                    // Each marked cell counts as 1 point
+                    score += 1;
+                    // If the cell is part of a completed row, column, or diagonal, it counts for an extra point
+                    if (completedRows[rowIndex] || completedCols[colIndex] ||
+                        (completedDiags.left && rowIndex === colIndex) || // Left-to-right diagonal
+                        (completedDiags.right && rowIndex === 4 - colIndex)) { // Right-to-left diagonal
+                        score += 1;
+                    }
+                }
+            });
+        });
+        return score;
     };
 
     const toggleCell = (row, col) => {
@@ -80,14 +99,16 @@ const BingoBoard = ({ cellContents, userId }) => {
 
         const newMarkedCount = newBoard.flat().filter(cell => cell.marked).length;
         setMarkedCount(newMarkedCount);
-
-        incrementBingoCount(userId, newMarkedCount);
-
         const hasNewBingo = checkForBingo(newBoard);
         if (hasNewBingo) {
             console.log('New Bingo!');
             setIsBingo(true);
         }
+        const newScore = calculateScore(newBoard, completedRows, completedCols, completedDiags);
+        setMarkedCount(newScore); // Update state with the new score
+
+        // Send the new score to the server
+        incrementBingoCount(userId, newScore);
     };
 
     const handleClose = () => {
@@ -146,7 +167,7 @@ const BingoBoard = ({ cellContents, userId }) => {
                     <DialogContent sx={{ textAlign: 'center' }}>
                         <Box display="flex" alignItems="center" justifyContent="center">
                             <Box>
-                                <img src="/sleepdragon.png" alt="bingo slep dragon" style={{ width: '100px'}} />
+                                <img src="/sleepdragon.png" alt="bingo slep dragon" style={{ width: '100px' }} />
                             </Box>
                             <Box>
                                 <DialogContentText>
