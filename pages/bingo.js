@@ -1,8 +1,13 @@
 import React from 'react';
 import api from './api'; // Make sure the API path is correct
 import { Box, Grid, Paper, Typography } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 
 const BingoBoard = ({ cellContents, userId }) => {
+    const [isBingo, setIsBingo] = React.useState(false);
+    const [completedRows, setCompletedRows] = React.useState(new Array(5).fill(false));
+    const [completedCols, setCompletedCols] = React.useState(new Array(5).fill(false));
+    const [completedDiags, setCompletedDiags] = React.useState({ left: false, right: false });
 
     if (!Array.isArray(cellContents) || cellContents.length !== 25) {
         console.error("cellContents must be an array with 25 elements.");
@@ -36,6 +41,34 @@ const BingoBoard = ({ cellContents, userId }) => {
         }
     };
 
+    const checkForBingo = (board) => {
+        let newBingo = false;
+        board.forEach((row, rowIndex) => {
+            if (!completedRows[rowIndex] && row.every(cell => cell.marked)) {
+                newBingo = true;
+                completedRows[rowIndex] = true; // Mark this row as completed
+            }
+        });
+
+        board[0].forEach((_, colIndex) => {
+            if (!completedCols[colIndex] && board.every(row => row[colIndex].marked)) {
+                newBingo = true;
+                completedCols[colIndex] = true; // Mark this column as completed
+            }
+        });
+
+        if (!completedDiags.left && board.every((row, idx) => row[idx].marked)) {
+            newBingo = true;
+            completedDiags.left = true; 
+        }
+        if (!completedDiags.right && board.every((row, idx) => row[board.length - 1 - idx].marked)) {
+            newBingo = true;
+            completedDiags.right = true; 
+        }
+
+        return newBingo;
+    };
+
     const toggleCell = (row, col) => {
         const newBoard = board.map((currentRow, rowIndex) =>
             rowIndex === row
@@ -45,12 +78,20 @@ const BingoBoard = ({ cellContents, userId }) => {
         );
         setBoard(newBoard);
 
-        // Calculate the number of marked cells
         const newMarkedCount = newBoard.flat().filter(cell => cell.marked).length;
         setMarkedCount(newMarkedCount);
 
-        // Send the new marked count to the server
         incrementBingoCount(userId, newMarkedCount);
+
+        const hasNewBingo = checkForBingo(newBoard);
+        if (hasNewBingo) {
+            console.log('New Bingo!');
+            setIsBingo(true);
+        }
+    };
+
+    const handleClose = () => {
+        setIsBingo(false);
     };
 
     return (
@@ -93,6 +134,39 @@ const BingoBoard = ({ cellContents, userId }) => {
                         </Grid>
                     </Grid>
                 ))}
+
+                <Dialog
+                    open={isBingo}
+                    onClose={handleClose}
+                    aria-labelledby="bingo-dialog-title"
+                >
+                    <DialogTitle id="bingo-dialog-title" sx={{ textAlign: 'center' }}>
+                        BINGO
+                    </DialogTitle>
+                    <DialogContent sx={{ textAlign: 'center' }}>
+                        <Box display="flex" alignItems="center" justifyContent="center">
+                            <Box>
+                                <img src="/sleepdragon.png" alt="bingo slep dragon" style={{ width: '100px'}} />
+                            </Box>
+                            <Box>
+                                <DialogContentText>
+                                    bingo!!! alright now get another one lol
+                                </DialogContentText>
+                            </Box>
+                        </Box>
+                    </DialogContent>
+
+                    <DialogActions sx={{ justifyContent: 'center' }}>
+                        <Button fullWidth sx={{
+                            color: 'white',
+                            backgroundColor: '#f0bf2e',
+                            '&:hover': {
+                                backgroundColor: 'darkgoldenrod', // Darker shade of gold for hover effect
+                            },
+                        }} onClick={handleClose}>close</Button>
+                    </DialogActions>
+                </Dialog>
+
             </Grid>
         </Box>
     );
